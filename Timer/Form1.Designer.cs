@@ -30,6 +30,7 @@ namespace Timer
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.numShortRest = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -42,17 +43,23 @@ namespace Timer
             this.label1 = new System.Windows.Forms.Label();
             this.numShortCount = new System.Windows.Forms.NumericUpDown();
             this.btnStart = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.btnClear = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.strCycle = new System.Windows.Forms.Label();
             this.strRestTime = new System.Windows.Forms.Label();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.ctMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.전체화면ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.일시정지ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.numShortRest)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWork)).BeginInit();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLongRest)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShortCount)).BeginInit();
+            this.ctMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // numShortRest
@@ -61,6 +68,7 @@ namespace Timer
             this.numShortRest.Name = "numShortRest";
             this.numShortRest.Size = new System.Drawing.Size(40, 24);
             this.numShortRest.TabIndex = 4;
+            this.numShortRest.ValueChanged += new System.EventHandler(this.numShortRest_ValueChanged);
             // 
             // label4
             // 
@@ -73,6 +81,7 @@ namespace Timer
             // 
             // groupBox1
             // 
+            this.groupBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.numWork);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
@@ -130,6 +139,7 @@ namespace Timer
             this.numLongRest.Name = "numLongRest";
             this.numLongRest.Size = new System.Drawing.Size(40, 24);
             this.numLongRest.TabIndex = 6;
+            this.numLongRest.ValueChanged += new System.EventHandler(this.numLongRest_ValueChanged);
             // 
             // label1
             // 
@@ -146,25 +156,31 @@ namespace Timer
             this.numShortCount.Name = "numShortCount";
             this.numShortCount.Size = new System.Drawing.Size(40, 24);
             this.numShortCount.TabIndex = 5;
+            this.numShortCount.ValueChanged += new System.EventHandler(this.numShortCount_ValueChanged);
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(93, 249);
+            this.btnStart.BackColor = System.Drawing.SystemColors.Control;
+            this.btnStart.Location = new System.Drawing.Point(12, 249);
             this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(122, 23);
+            this.btnStart.Size = new System.Drawing.Size(232, 23);
             this.btnStart.TabIndex = 8;
             this.btnStart.Text = "시작";
-            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.UseVisualStyleBackColor = false;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
-            // btnStop
+            // btnClear
             // 
-            this.btnStop.Location = new System.Drawing.Point(221, 249);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(75, 23);
-            this.btnStop.TabIndex = 9;
-            this.btnStop.Text = "정지";
-            this.btnStop.UseVisualStyleBackColor = true;
+            this.btnClear.BackColor = System.Drawing.Color.SteelBlue;
+            this.btnClear.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnClear.Font = new System.Drawing.Font("굴림", 8.765218F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.btnClear.ForeColor = System.Drawing.Color.Yellow;
+            this.btnClear.Location = new System.Drawing.Point(250, 249);
+            this.btnClear.Name = "btnClear";
+            this.btnClear.Size = new System.Drawing.Size(46, 23);
+            this.btnClear.TabIndex = 9;
+            this.btnClear.Text = "C";
+            this.btnClear.UseVisualStyleBackColor = false;
             // 
             // label2
             // 
@@ -187,34 +203,80 @@ namespace Timer
             // strCycle
             // 
             this.strCycle.AutoSize = true;
+            this.strCycle.Font = new System.Drawing.Font("굴림", 11.89565F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+            this.strCycle.ForeColor = System.Drawing.Color.Tomato;
             this.strCycle.Location = new System.Drawing.Point(105, 215);
             this.strCycle.Name = "strCycle";
-            this.strCycle.Size = new System.Drawing.Size(0, 15);
+            this.strCycle.Size = new System.Drawing.Size(0, 19);
             this.strCycle.TabIndex = 12;
             // 
             // strRestTime
             // 
             this.strRestTime.AutoSize = true;
+            this.strRestTime.Font = new System.Drawing.Font("굴림", 11.89565F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.strRestTime.Location = new System.Drawing.Point(226, 215);
             this.strRestTime.Name = "strRestTime";
-            this.strRestTime.Size = new System.Drawing.Size(0, 15);
+            this.strRestTime.Size = new System.Drawing.Size(0, 19);
             this.strRestTime.TabIndex = 13;
+            // 
+            // trayIcon
+            // 
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "Timer";
+            this.trayIcon.Visible = true;
+            this.trayIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseDoubleClick);
+            // 
+            // ctMenu
+            // 
+            this.ctMenu.ImageScalingSize = new System.Drawing.Size(19, 19);
+            this.ctMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.전체화면ToolStripMenuItem,
+            this.일시정지ToolStripMenuItem,
+            this.종료ToolStripMenuItem});
+            this.ctMenu.Name = "ctMenu";
+            this.ctMenu.Size = new System.Drawing.Size(144, 76);
+            // 
+            // 전체화면ToolStripMenuItem
+            // 
+            this.전체화면ToolStripMenuItem.Name = "전체화면ToolStripMenuItem";
+            this.전체화면ToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
+            this.전체화면ToolStripMenuItem.Text = "전체 화면";
+            this.전체화면ToolStripMenuItem.Click += new System.EventHandler(this.전체화면ToolStripMenuItem_Click);
+            // 
+            // 일시정지ToolStripMenuItem
+            // 
+            this.일시정지ToolStripMenuItem.Name = "일시정지ToolStripMenuItem";
+            this.일시정지ToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
+            this.일시정지ToolStripMenuItem.Text = "일시정지";
+            this.일시정지ToolStripMenuItem.Click += new System.EventHandler(this.일시정지ToolStripMenuItem_Click);
+            // 
+            // 종료ToolStripMenuItem
+            // 
+            this.종료ToolStripMenuItem.Name = "종료ToolStripMenuItem";
+            this.종료ToolStripMenuItem.Size = new System.Drawing.Size(143, 24);
+            this.종료ToolStripMenuItem.Text = "종료";
+            this.종료ToolStripMenuItem.Click += new System.EventHandler(this.종료ToolStripMenuItem_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(310, 282);
             this.Controls.Add(this.strRestTime);
             this.Controls.Add(this.strCycle);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnClear);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimizeBox = false;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Timer ✔✔✔";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.numShortRest)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -223,6 +285,7 @@ namespace Timer
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numLongRest)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numShortCount)).EndInit();
+            this.ctMenu.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -240,13 +303,18 @@ namespace Timer
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.NumericUpDown numShortCount;
         private System.Windows.Forms.Button btnStart;
-        private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.Button btnClear;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown numWork;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label strCycle;
         private System.Windows.Forms.Label strRestTime;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.ContextMenuStrip ctMenu;
+        private System.Windows.Forms.ToolStripMenuItem 전체화면ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 일시정지ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem 종료ToolStripMenuItem;
     }
 }
 
