@@ -31,7 +31,6 @@ namespace Timer
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.timer = new System.Windows.Forms.Timer(this.components);
             this.numShortRest = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -181,6 +180,7 @@ namespace Timer
             this.btnClear.TabIndex = 9;
             this.btnClear.Text = "C";
             this.btnClear.UseVisualStyleBackColor = false;
+            this.btnClear.Click += new System.EventHandler(this.btnClear_Click);
             // 
             // label2
             // 
@@ -292,8 +292,6 @@ namespace Timer
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.NumericUpDown numShortRest;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.GroupBox groupBox1;

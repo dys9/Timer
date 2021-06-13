@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
 
@@ -14,11 +15,11 @@ namespace Timer
 {
     public partial class Form1 : Form
     {
-        enum State { Work, Short, Long };
+        enum TimeState { Work, Short, Long };
 
         int formState = -1;
-
         int remainTime = 0;
+        int workTime = 0;
         int shortRestTime = 0;
         int shortCount = 0;
         int longRestTime = 0;
@@ -26,6 +27,10 @@ namespace Timer
 
         bool isCounting = false;
         bool isExit = false;
+
+        //State Work;
+        //Thread WorkThread;
+        //Mutex mut = new Mutex();
 
         [DllImport("kernel32.dll")]
         public static extern bool Beep(int n, int m);
@@ -48,12 +53,29 @@ namespace Timer
             numShortCount.Value = 2;
             numLongRest.Value = 20;
 
-            remainTime = Decimal.ToInt32(numWork.Value) * 60;
+            workTime = Decimal.ToInt32(numWork.Value)           * 60; // * 60
             shortRestTime = Decimal.ToInt32(numShortRest.Value) * 60;
-            shortCount = Decimal.ToInt32(numShortCount.Value) * 60;
-            longRestTime = Decimal.ToInt32(numLongRest.Value) * 60;
+            shortCount = Decimal.ToInt32(numShortCount.Value)   * 60;
+            longRestTime = Decimal.ToInt32(numLongRest.Value)   * 60;
 
-            remainTime = 1;
+            //Work = new State((int)TimeState.Work, 100, shortRestTime, shortCount, longRestTime, strRestTime, strCycle, mut);
+            //WorkThread = new Thread(Work.run);
+
+            workTime = 10;
+            shortRestTime = 5;
+            shortCount = 2;
+            longRestTime = 10;
+
+            remainTime = workTime;
+
+            MessageBox.Show(
+                string.Format(
+                $"WorkTime : {workTime}\n" +
+                $"ShortTime : {shortRestTime}\n" +
+                $"ShortCount : {shortCount}\n" +
+                $"LongTime : {longRestTime}\n" +
+                $"remainTime : {remainTime}"
+            ));
         }
 
         public void TrayIcon_Load(object sender, EventArgs e)
@@ -75,10 +97,18 @@ namespace Timer
                 groupBox2.Enabled = false;
                 isCounting = true;
 
-                timer.Interval = (int)1000;
+                formState = (int) TimeState.Work;
 
-                timer.Tick += Timer_Tick;
-                timer.Start();
+                //if (!WorkThread.IsAlive)
+                //{
+                //    Work.mutFlag = false;
+                //    WorkThread.Start();
+                //}
+                //else if (WorkThread.IsAlive)
+                //{
+                //    Work.mutFlag = false;
+                //}
+
             }
             else if (isCounting)
             {
@@ -92,11 +122,11 @@ namespace Timer
                 groupBox2.Enabled = true;
                 isCounting = false;
 
-                timer.Tick -= Timer_Tick;
+                //Work.mutFlag = true;
             }
         }
 
-        private string getRemainTime(int t)
+        public static string getTimeString(int t)
         {
             int h = t / 3600;
             int m = t / 60;
@@ -118,49 +148,14 @@ namespace Timer
             start_OR_pause();
         }
 
-        private void Work_Tick(object sender, EventArgs e)
+        private void btnClear_Click(object sender, EventArgs e)
         {
-            if (formState == (int) State.Work)
-            {
-                remainTime--;
-                strRestTime.Text = getRemainTime(remainTime);
-            }
-            else if (remainTime == 0)
-            {
-                endBeep();
-            }
         }
 
-        private void Short_Tick(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            if (remainTime > 0 && (shortRestTime == 0 && longRestTime == 0))
-            {
-                remainTime--;
-                strRestTime.Text = getRemainTime(remainTime);
-            }
-            else if (remainTime == 0)
-            {
-                endBeep();
-            }
-
-            if (Decimal.ToInt32(numShortCount.Value) > 1)
-            {
-                for (int i = 0; i < Decimal.ToInt32(numShortCount.Value); i++)
-                {
-
-                }
-            }
-        }
-
-        #region 숫자 변경 이벤트
+        #region 입력 변경 이벤트
         private void numWork_ValueChanged(object sender, EventArgs e)
         {
-            remainTime = Decimal.ToInt32(numWork.Value) * 60;
+            workTime = Decimal.ToInt32(numWork.Value) * 60;
         }
 
         private void numShortRest_ValueChanged(object sender, EventArgs e)
@@ -172,6 +167,17 @@ namespace Timer
         private void numShortCount_ValueChanged(object sender, EventArgs e)
         {
             shortCount = Decimal.ToInt32(numShortCount.Value) * 60;
+
+            if (numShortCount.Value == 0)
+            {
+                numShortRest.Value = 0;
+                shortRestTime = 0;
+                numShortRest.Enabled = false;
+            }
+            else
+            {
+                numShortRest.Enabled = true;
+            }
         }
 
         private void numLongRest_ValueChanged(object sender, EventArgs e)
@@ -196,6 +202,8 @@ namespace Timer
             if (MessageBox.Show("You Wanna close this Program?","Close?", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 isExit = true;
+                
+                //WorkThread.Abort();
                 this.Close();
             }
         }
