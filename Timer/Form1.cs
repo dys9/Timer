@@ -228,11 +228,20 @@ namespace Timer
         }
 
         private void EndBeep()
-        {
-            Beep(256 * 2, 200); // 도
-            Beep(320 * 2, 200); // 미
-            Beep(384 * 2, 200); // 레
-            Beep(256 * 4, 200); // 도
+        { 
+            Thread.Sleep(50);
+            Beep(256 * 2, 250); // 도
+            Thread.Sleep(50);
+            Beep(320 * 2, 250); // 미
+            Thread.Sleep(50);
+            Beep(384 * 2, 250); // 레
+            Thread.Sleep(50);
+            Beep(256 * 4, 250); // 도
+            Thread.Sleep(50);
+
+            Sound.Beep();
+            Sound.Beep();
+
         }
 
         #region UI 이벤트
