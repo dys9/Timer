@@ -52,6 +52,7 @@ namespace Timer
             this.전체화면ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.일시정지ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.종료ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.numShortRest)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numWork)).BeginInit();
@@ -205,7 +206,7 @@ namespace Timer
             this.strCycle.AutoSize = true;
             this.strCycle.Font = new System.Drawing.Font("굴림", 11.89565F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
             this.strCycle.ForeColor = System.Drawing.Color.Tomato;
-            this.strCycle.Location = new System.Drawing.Point(105, 215);
+            this.strCycle.Location = new System.Drawing.Point(105, 211);
             this.strCycle.Name = "strCycle";
             this.strCycle.Size = new System.Drawing.Size(0, 19);
             this.strCycle.TabIndex = 12;
@@ -214,7 +215,7 @@ namespace Timer
             // 
             this.strRestTime.AutoSize = true;
             this.strRestTime.Font = new System.Drawing.Font("굴림", 11.89565F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-            this.strRestTime.Location = new System.Drawing.Point(226, 215);
+            this.strRestTime.Location = new System.Drawing.Point(226, 211);
             this.strRestTime.Name = "strRestTime";
             this.strRestTime.Size = new System.Drawing.Size(0, 19);
             this.strRestTime.TabIndex = 13;
@@ -273,6 +274,7 @@ namespace Timer
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "Timer ✔✔✔";
@@ -313,6 +315,7 @@ namespace Timer
         private System.Windows.Forms.ToolStripMenuItem 전체화면ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 일시정지ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 종료ToolStripMenuItem;
+        private System.Windows.Forms.Timer timer;
     }
 }
 

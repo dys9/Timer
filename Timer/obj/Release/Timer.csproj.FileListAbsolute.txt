@@ -1,0 +1,9 @@
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\bin\Release\Timer.exe.config
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\bin\Release\Timer.exe
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\bin\Release\Timer.pdb
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\obj\Release\Timer.Form1.resources
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\obj\Release\Timer.Properties.Resources.resources
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\obj\Release\Timer.csproj.GenerateResource.cache
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\obj\Release\Timer.csproj.CoreCompileInputs.cache
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\obj\Release\Timer.exe
+D:\이대현\WORK_SPACE\Project_C#\Timer\Timer\obj\Release\Timer.pdb

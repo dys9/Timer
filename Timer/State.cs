@@ -3,147 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Threading;
 using System.Windows.Forms;
+using System.Threading;
+
 namespace Timer
 {
+    #region Class State
     class State
     {
         #region Member Variable
-        private int _timeState;
-        public int timeState
+        private int _TimeState;
+        public int TimeState
         {
-            get { return _timeState; }
-            set { _timeState = value; }
+            get { return _TimeState; }
+            set { _TimeState = value; }
         }
 
-        private int _workTime;
-        public int workTime
+        private int _Time;
+        public int Time
         {
-            get { return _workTime; }
-            set { _workTime = value; }
+            get { return _Time; }
+            set { _Time = value; }
         }
 
-        private int _shortRestTime;
-        public int shortRestTime
+        private int _RemainTime;
+        public int RemainTime
         {
-            get { return _shortRestTime; }
-            set { _shortRestTime = value; }
+            get { return _RemainTime; }
+            set { _RemainTime = value; }
         }
 
-        private int _shortCount;
-        public int shortCount
+        private int _Count;
+        public int Count
         {
-            get { return _shortCount; }
-            set { _shortCount = value; }
+            get { return _Count; }
+            set { _Count = value; }
         }
 
-        private int _longRestTime;
-        public int longRestTime
-        {
-            get { return _longRestTime; }
-            set { _longRestTime = value; }
-        }
-
-        private int _numCycle;
-        public int numCycle
-        {
-            get { return _numCycle; }
-            set { _numCycle = value; }
-        }
-
-        private Mutex _mut;
-        public Mutex mut
-        {
-            get { return _mut; }
-            set { _mut = value; }
-        }
-
-        private bool _mutFlag;
-        public bool mutFlag
-        {
-            get { return _mutFlag; }
-            set { _mutFlag = value; }
-        }
+        private Label Timelabel;
         #endregion
 
-        private int remainTime = 0;
-        private Label Timelabel;
-        private Label Cyclelabel;
 
-        public State(int state, int worktime, int shorttime, int shortcount, int longtime, Label label, Label Cycle, Mutex mut)
+        public State(int TimeState, int Time, int RemainTime, int Count, Label t)
         {
-            this.timeState = state;
-            this.workTime = worktime;
-            this.shortRestTime = shorttime;
-            this.shortCount = shortcount;
-            this.longRestTime = longtime;
-            this.numCycle = 0;
-            this.Timelabel = label;
-            this.Cyclelabel = Cycle;
-            this.mut = mut;
+            this.TimeState = TimeState;
+            this.Time = Time;
+            this.RemainTime = RemainTime;
+            this.Count = Count;
 
-            this.workTime = 10;
-            this.remainTime = 10;
+            this.Timelabel = t;
         }
 
-        public void run()
+        public void Run()
         {
-            while (true)
+            while (this.Time > 0)
             {
-                if (!mutFlag)
-                {
-                    remainTime--;
-                    Thread.Sleep(1000);
-                    Timelabel.Text = Form1.getTimeString(remainTime);
-
-                    if (remainTime == 0)
-                    {
-                        if (shortCount > 1)  // 짧은 쉬는 시간의 수가 1 이상일 경우
-                        {
-                            for (int i = 0; i < shortCount; i++) // 짧은 쉬는 시간의 수 만큼
-                            {
-                                remainTime = shortRestTime; // 쉬는 시간 정의
-                                while (remainTime > 0) // 쉬는 시간이 끝나는 동안
-                                {
-                                    remainTime--;
-                                    Thread.Sleep(1000);
-                                    Timelabel.Text = Form1.getTimeString(remainTime);
-                                }
-
-                                numCycle++;
-                                Cyclelabel.Text = numCycle.ToString();
-
-                                remainTime = workTime;
-
-                                while (remainTime > 0)
-                                {
-                                    remainTime--;
-                                    Thread.Sleep(1000);
-                                    Timelabel.Text = Form1.getTimeString(remainTime);
-                                }
-                            }
-                        }
-
-                        remainTime = longRestTime;
-
-                        while (remainTime > 0)
-                        {
-                            remainTime--;
-                            Thread.Sleep(1000);
-                            Timelabel.Text = Form1.getTimeString(remainTime);
-                        }
-
-                        numCycle++;
-                        Cyclelabel.Text = numCycle.ToString();
-                        remainTime = workTime;
-                    }
-                }
-                else
-                {
-                }
+                Thread.Sleep(1000);
+                this.Time--;
+                Timelabel.Text = Form1.getTimeString(RemainTime);
             }
-
         }
+
+
     }
+    #endregion
 }
